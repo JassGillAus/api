@@ -1,0 +1,39 @@
+# .NET Build & Cache Folders
+bin/
+obj/
+out/
+*.user
+*.suo
+*.cache
+
+# Visual Studio & JetBrains Rider
+.vs/
+.idea/
+*.DotSettings.user
+
+# NUnit & .NET Test Results
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+
+# Playwright Artifacts (Traces, Screenshots, Videos, Auth State)
+playwright-report/
+test-results/
+traces/
+*.zip
+auth.json
+storageState.json
+
+# Secrets & Local Environment Settings (API Keys, Tokens, Passwords)
+.env
+*.env.local
+appsettings.Development.json
+appsettings.Local.json
+secrets.json
+
+# OS Generated Files
+.DS_Store
+Thumbs.db
+
+.vscode/

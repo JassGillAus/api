@@ -1,0 +1,39 @@
+
+trigger:
+  - main
+
+pr:
+  - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+  - task: UseDotNet@2
+    displayName: 'Install .NET SDK'
+    inputs:
+      packageType: 'sdk'
+      version: '10.0.x'
+
+  - script: dotnet restore
+    displayName: 'Restore NuGet packages'
+
+  - script: dotnet build --configuration Release --no-restore
+    displayName: 'Build C# project'
+
+  - script: >
+      dotnet test --configuration Release
+      --no-build
+      --logger "trx;LogFileName=api-tests.trx"
+      --results-directory "$(Agent.TempDirectory)/test-results"
+    displayName: 'Run Playwright API tests'
+
+  - task: PublishTestResults@2
+    displayName: 'Publish NUnit test results'
+    condition: succeededOrFailed()
+    inputs:
+      testResultsFormat: 'VSTest'
+      testResultsFiles: '**/*.trx'
+      searchFolder: '$(Agent.TempDirectory)/test-results'
+      failTaskOnFailedTests: true
+      testRunTitle: 'Freightways API Automation'
